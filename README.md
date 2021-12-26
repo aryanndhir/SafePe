@@ -1,3 +1,3 @@
-# payment-gateway-using-hybrid-encryption
+# safe-pay
 
 Payment Gateway using AES+ECC Hybrid Encryption
