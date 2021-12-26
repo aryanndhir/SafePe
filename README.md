@@ -1,3 +1,3 @@
 # SafePay
 
-Payment Gateway using AES+ECC Hybrid Encryption
+A Payment Gateway using AES+ECC Hybrid Encryption
