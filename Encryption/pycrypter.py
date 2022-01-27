@@ -32,11 +32,12 @@ def decryptFile(filename, keyfile):
         inputBlock[i] = decrypt(inputBlock[i], getKey(keyfile))
         print(str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")  # check
 
-    boolWritten = writeToOutputPlain(inputBlock, outputFile)
-    if boolWritten == True:
-        return "Successfully decrypted: " + filename + " with: " + keyfile + " into: " + outputFile
-    else:
-        return "Something went wrong, please check settings"
+    # boolWritten = writeToOutputPlain(inputBlock, outputFile)
+    # if boolWritten == True:
+    #     return "Successfully decrypted: " + filename + " with: " + keyfile + " into: " + outputFile
+    # else:
+    #     return "Something went wrong, please check settings"
+    return inputBlock
 
 
 def writeToOutputPlain(block, outputFilename):
