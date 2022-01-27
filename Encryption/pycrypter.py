@@ -16,7 +16,10 @@ def encryptFile(filename, keyfile):
         print("Encrypted: " + str(i).zfill(lenFill)+"/" +
               str(len(plainBlock)).zfill(lenFill)+"\r")  # check
     print("Encrypted: "+str(len(plainBlock)))
-    return encryptedBlock
+    # return encryptedBlock
+
+    finaldata = writeToOutputHex(encryptedBlock)
+    return finaldata
 
     # boolWritten = writeToOutputHex(encryptedBlock, outputFile)
     # if boolWritten == True:
@@ -32,49 +35,62 @@ def decryptFile(filename, keyfile):
         inputBlock[i] = decrypt(inputBlock[i], getKey(keyfile))
         print(str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")  # check
 
+    finalDecryptdata = writeToOutputPlain(inputBlock)
+
+    return finalDecryptdata
+
     # boolWritten = writeToOutputPlain(inputBlock, outputFile)
     # if boolWritten == True:
     #     return "Successfully decrypted: " + filename + " with: " + keyfile + " into: " + outputFile
     # else:
     #     return "Something went wrong, please check settings"
-    return inputBlock
+    
+    # return inputBlock
 
 
-def writeToOutputPlain(block, outputFilename):
-    outputFile = open(outputFilename, "w")
+def writeToOutputPlain(block):
+    # outputFile = open(outputFilename, "w")
+    outputFile = ""
+
     lenFill = len(str(len(block)))
     k = 0
     while k < len(block):
         for j in range(0, len(block[k])):
-            outputFile.write(chr(block[k][j]))
-        print("Written: "+str(k).zfill(lenFill)+"/"+str(len(block)) +
-              " to file "+outputFilename+" \r")  # check
+            outputFile += chr(block[k][j])
+            # outputFile.write(chr(block[k][j]))
+        # print("Written: "+str(k).zfill(lenFill)+"/"+str(len(block)) +
+            #   " to file "+outputFilename+" \r")  # check
         k += 1
-    outputFile.close()
-    return True
+    # outputFile.close()
+    # return True
+    return outputFile
 
 
-def writeToOutputHex(block, outputFilename):
-    outputFile = open(outputFilename, "w")
+def writeToOutputHex(block):
+    # outputFile = open(outputFilename, "w")
+    outputFile = ""
     k = 0
     lenFill = len(str(len(block)))
     while k < len(block):
         for j in range(0, len(block[k])):
-            outputFile.write(hex(block[k][j])[2:].zfill(2))
-        print("Written: "+str(k).zfill(lenFill)+"/"+str(len(block)) +
-              " to file "+outputFilename+" \r")  # check
+            outputFile += (hex(block[k][j]))[2:].zfill(2)
+            # outputFile.write(hex(block[k][j])[2:].zfill(2))
+        
+        # print("Written: "+str(k).zfill(lenFill)+"/"+str(len(block)) +
+            #   " to file "+outputFilename+" \r")  # check
         k += 1
-    print("Written: "+str(len(block)).zfill(lenFill) +
-          " to file "+outputFilename)  # check
-    outputFile.close()
-    return True
+    # print("Written: "+str(len(block)).zfill(lenFill) +
+        #   " to file "+outputFilename)  # check
+    # outputFile.close()
+    return outputFile
+    # return True
 
 
-def is_valid_file(parser, arg):
-    if not os.path.exists(arg):
-        parser.error("The file %s does not exist!" % arg)
-    else:
-        return arg
+# def is_valid_file(parser, arg):
+#     if not os.path.exists(arg):
+#         parser.error("The file %s does not exist!" % arg)
+#     else:
+#         return arg
 
 
 def Main():
@@ -91,11 +107,18 @@ def Main():
     # args = parser.parse_args()
 
     blockFile = input("Enter text to encrypt: ")
+
+    # This is a 256-bit hexxadecimal key
     keyFile = "576E5A7234753778214125442A472D4B614E645267556B58703273357638792F"
+    
     # operation = str(args.operation).lower()
-    status = ""
-    status = encryptFile(blockFile, keyFile)
-    status = decryptFile(blockFile, keyFile)
+
+    enc_text = encryptFile(blockFile, keyFile)
+    print("Encrypted data: ", enc_text)
+
+    dec_text = decryptFile(enc_text, keyFile)
+    print("Decrypted data: ", dec_text)
+
 
     # if not args.output:
     #     output = "output.txt"
