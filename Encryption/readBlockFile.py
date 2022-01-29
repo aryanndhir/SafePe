@@ -4,8 +4,6 @@ def getLargeHexBlock(hexStr):
     :param filename: input the filename containing string to convert to block
     :return: Integer array from blockfile
     """
-    # hexFile = open(filename, 'r')
-    # hexStr = hexFile.read()
     tempArray = []
     blockArray = []
 
@@ -23,7 +21,6 @@ def getLargeBlock(blockFile):
     :param filename: Input of the filename to be encrypted
     :return: Integer Nested Array list with 16Byte blocks
     '''
-    # blockFile = open(filename, 'r')
     str = blockFile.encode("utf-8").hex()
     tempArray = []
     blockArray = []
