@@ -1,7 +1,7 @@
 def getKey(str):
     '''
-    Input filename containing bytestring of hexadecimal values to convert into a Integer Array
-    :param filename: name of file containing bytestring
+    Input string containing bytestring of hexadecimal values to convert into a Integer Array
+    :param str: name of string containing bytestring
     :return: Integer Array
     '''
     intArray = []
