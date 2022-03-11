@@ -3,10 +3,9 @@ import ecc_eceispy
 
 
 # data to be encoded {Account number, CVV, Amount, Expiry date} -> Input
-print(keyfile)
-
+# print(keyfile)
 
 def PaymetGateway():
     concatStr = AccNo + CVV + Amount + ExpiryDate
     encData = encryptFile(concaStr)
-    ecckey = keyfile
+    aes_key = keyfile
