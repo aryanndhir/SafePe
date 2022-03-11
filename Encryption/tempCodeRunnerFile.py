@@ -1,1 +1,0 @@
-applyDoubleAndAddMethod
