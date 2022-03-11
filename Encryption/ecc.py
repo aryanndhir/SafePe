@@ -4,7 +4,10 @@ from ecies import encrypt, decrypt
 eth_k = generate_eth_key()
 sk_hex = eth_k.to_hex()  # hex string
 pk_hex = eth_k.public_key.to_hex()  # hex string
-data = 'this is a test' 
+
+# b is used as it is a byte literal so basiacally it is a byte array and we use this instead of data.encode("utf8")
+data = b'this is a test'
+
 
 enc_data = encrypt(pk_hex, data)
 print(enc_data)
@@ -17,3 +20,4 @@ sk_bytes = secp_k.secret  # bytes
 pk_bytes = secp_k.public_key.format(True)  # bytes
 
 decrypt(sk_bytes, encrypt(pk_bytes, data))
+
