@@ -2,6 +2,10 @@ from argparse import *
 from readKeyFile import *
 from readBlockFile import *
 from AES256 import encrypt, decrypt
+import secrets
+
+keyfile = secrets.token_hex(32)
+print(keyfile)
 
 
 def encryptFile(filename, keyfile):
@@ -58,18 +62,18 @@ def writeToOutputHex(block):
     return outputFile
 
 
-def Main():
+# def Main():
 
-    blockFile = input("Enter text to encrypt: ")
+#     blockFile = input("Enter text to encrypt: ")
 
-    # This is a 256-bit hexxadecimal key
-    keyFile = "576E5A7234753778214125442A472D4B614E645267556B58703273357638792F"
+#     # This is a 256-bit hexxadecimal key
+#     # generate this randomly
+#     keyFile = "576E5A7234753778214125442A472D4B614E645267556B58703273357638792F"
+#     enc_text = encryptFile(blockFile, keyFile)
+#     print("Encrypted data: ", enc_text)
 
-    enc_text = encryptFile(blockFile, keyFile)
-    print("Encrypted data: ", enc_text)
-
-    dec_text = decryptFile(enc_text, keyFile)
-    print("Decrypted data: ", dec_text)
+#     dec_text = decryptFile(enc_text, keyFile)
+#     print("Decrypted data: ", dec_text)
 
 
-Main()
+# Main()
