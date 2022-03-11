@@ -8,7 +8,7 @@ keyfile = secrets.token_hex(32)
 print(keyfile)
 
 
-def encryptFile(filename, keyfile):
+def encryptFile(filename):
     plainBlock = getLargeBlock(filename)
     encryptedBlock = []
     lenFill = len(str(len(plainBlock)))
@@ -22,7 +22,7 @@ def encryptFile(filename, keyfile):
     return finaldata
 
 
-def decryptFile(filename, keyfile):
+def decryptFile(filename):
     inputBlock = getLargeHexBlock(filename)
     for i in range(len(inputBlock)):
         inputBlock[i] = decrypt(inputBlock[i], getKey(keyfile))
