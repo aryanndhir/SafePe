@@ -8,15 +8,8 @@ pk_hex = eth_k.public_key.to_hex()  # hex string
 # b is used as it is a byte literal so basiacally it is a byte array and we use this instead of data.encode("utf8")
 data = b'this is a test'
 
+def encrypt_data(pk_hex, data):
+    return encrypt(pk_hex, data)
 
-enc_data = encrypt(pk_hex, data)
-print(enc_data)
-
-dec_data = decrypt(sk_hex, enc_data)
-print(dec_data)
-
-secp_k = generate_key()
-sk_bytes = secp_k.secret  # bytes
-pk_bytes = secp_k.public_key.format(True)  # bytes
-
-decrypt(sk_bytes, encrypt(pk_bytes, data))
+def decrypt_data(sk_hex, enc_data):
+    return decrypt(sk_hex, enc_data)
