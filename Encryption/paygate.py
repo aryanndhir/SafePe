@@ -16,7 +16,6 @@ def sender_bank(aes_ecc_key, aes_data):
     # check if the amount is valid
     # check if the CVV is valid
     # check if the expiry date is valid
-    # check if the account is active
     # check if the account has sufficient balance
 
     return true
@@ -27,11 +26,11 @@ def receiver_bank(aes_ecc_key, aes_data):
     aes_key = ecc.decrypt_data(aes_ecc_key, "receiver")
     data = aes.decryptFile(aes_data, aes_key)
 
-    accNo, cvv, amount, expiryDate =  data.split(",")
+    recAccNo =  data.split(",")[-1]
 
+    # check if the account number is valid
 
-# data to be encoded {Account number, CVV, Amount, Expiry date} -> Input
-# print(keyfile)
+    return true
 
 
 def PaymentGateway(data):
@@ -54,6 +53,5 @@ def PaymentGateway(data):
         print("Payment Failed")
 
 
-data = "123456789,123,100,12/12"
+data = "123456789,123,100,12/12/12,98765432"
 PaymentGateway(data)
-
