@@ -8,8 +8,6 @@ def sender_bank(aes_ecc_key, aes_data):
     aes_key = ecc.decrypt_data(aes_ecc_key, "sender")
     data = aes.decryptFile(aes_data, aes_key)
 
-    print("Data: ", data)
-
     accNo, cvv, amount, expiryDate =  data.split(",")
 
     # check if the account number is valid
