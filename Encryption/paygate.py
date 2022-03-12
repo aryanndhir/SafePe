@@ -31,6 +31,7 @@ def receiver_bank(aes_ecc_key, aes_data):
 # data to be encoded {Account number, CVV, Amount, Expiry date} -> Input
 # print(keyfile)
 
+
 def PaymentGateway(data):
 
     accNo, cvv, amount, expiryDate =  data.split(",")
@@ -45,5 +46,6 @@ def PaymentGateway(data):
     if(verification):
         aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
         receiver_bank(aes_ecc_key, aes_data)
+        print("Success")
     else:
         print("Payment Failed")
