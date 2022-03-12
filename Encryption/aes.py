@@ -22,7 +22,7 @@ def encryptFile(filename):
     return finaldata
 
 
-def decryptFile(filename):
+def decryptFile(filename, keyfile1):
     inputBlock = getLargeHexBlock(filename)
     for i in range(len(inputBlock)):
         inputBlock[i] = decrypt(inputBlock[i], getKey(keyfile))
