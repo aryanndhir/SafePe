@@ -8,6 +8,8 @@ def sender_bank(aes_ecc_key, aes_data):
     aes_key = ecc.decrypt_data(aes_ecc_key, "sender")
     data = aes.decryptFile(aes_data, aes_key)
 
+    print("Data: ", data)
+
     accNo, cvv, amount, expiryDate =  data.split(",")
 
     # check if the account number is valid
@@ -34,8 +36,9 @@ def receiver_bank(aes_ecc_key, aes_data):
 
 def PaymentGateway(data):
 
-    accNo, cvv, amount, expiryDate =  data.split(",")
-    concatStr = accNo + cvv + amount + expiryDate
+    # accNo, cvv, amount, expiryDate =  data.split(",")
+    # concatStr = accNo + cvv + amount + expiryDate
+    concatStr = data
 
     aes_data = aes.encryptFile(concatStr)
     aes_key = aes.keyfile
@@ -49,3 +52,8 @@ def PaymentGateway(data):
         print("Success")
     else:
         print("Payment Failed")
+
+
+data = "123456789,123,100,12/12"
+PaymentGateway(data)
+

@@ -5,7 +5,7 @@ eth_k_sender = generate_eth_key()  # environment variable
 sk_hex_sender = eth_k_sender.to_hex()  # hex string
 pk_hex_sender = eth_k_sender.public_key.to_hex()  # hex string
 
-eth_k_receiver = generate_eth_key()
+eth_k_receiver = generate_eth_key()  # environment variable
 sk_hex_receiver = eth_k_receiver.to_hex()  
 pk_hex_receiver = eth_k_receiver.public_key.to_hex()  
 
@@ -13,6 +13,8 @@ pk_hex_receiver = eth_k_receiver.public_key.to_hex()
 data = b'this is a test'
 
 def encrypt_data(data, bank):
+
+    data = bytes(data, 'utf-8')
 
     if bank == "sender":
         return encrypt(pk_hex_sender, data)
