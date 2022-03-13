@@ -16,7 +16,6 @@ def sender_bank(aes_ecc_key, aes_data):
 
     df = pd.read_excel("bank_records.xlsx")
 
-    # print(df['expirydate'])
     accNo = int(accNo)
     cvv = int(cvv)
     amount = int(amount)
@@ -28,21 +27,32 @@ def sender_bank(aes_ecc_key, aes_data):
 
     expiryDate = datetime.strptime(expiryDate, '%d/%m/%y')
     expiryDate = np.datetime64(expiryDate)
+    todayDate = np.datetime64(date.today())
+
     # print("expiryDate", expiryDate)
     # print("expiry type", type(expiryDate))
     # print(expiryDate > exx)
 
-    if(df.loc[df['accountno'] == accNo].empty):
+    bank_record = df.loc[df['accountno'] == accNo]
+    bank_record_cvv = bank_record['cvv'].values[0]
+    bank_record_amount = bank_record['amount'].values[0]
+    bank_record_expiryDate = bank_record['expirydate'].values[0]
+
+    if(bank_record.empty):
         return false
     else:
-        # print("hello1")
-        if df.loc[df['accountno'] == accNo]['cvv'].values[0] == cvv:
-            # print("hello2")
-            if df.loc[df['accountno'] == accNo]['amount'].values[0] >= int(amount):
-                # print("hello3")
-                if df.loc[df['accountno'] == accNo]['expirydate'].values[0] == expiryDate:
-                    # print("hello4")
-                    df.loc[df['accountno'] == accNo, 'amount'] = df.loc[df['accountno'] == accNo]['amount'].values[0] - int(amount)
+        if bank_record_cvv == cvv:
+        # if bank_record['cvv'].values[0] == cvv:
+            
+            if bank_record_amount >= amount:
+            # if df.loc[df['accountno'] == accNo]['amount'].values[0] >= int(amount):
+
+                if bank_record_expiryDate == expiryDate and expiryDate >= todayDate:
+                # if df.loc[df['accountno'] == accNo]['expirydate'].values[0] == expiryDate:
+                    
+                    df.loc[df['accountno'] == accNo, 'amount'] = bank_record_amount - int(amount)                    
+                    # df.loc[df['accountno'] == accNo, 'amount'] = df.loc[df['accountno'] == accNo]['amount'].values[0] - int(amount)
+                    
                     # df.to_excel("bank_records.xlsx", index=False)
                     return true
 
