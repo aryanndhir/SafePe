@@ -51,7 +51,6 @@ def receiver_bank(aes_ecc_key, aes_data):
     data = aes.decryptFile(aes_data, aes_key)
 
     accNo, cvv, amount, expiryDate, recAccNo  =  data.split(",")
-    # recAccNo =  data.split(",")[-1]
     recAccNo = int(recAccNo)
 
     df = pd.read_excel("bank_records.xlsx")
