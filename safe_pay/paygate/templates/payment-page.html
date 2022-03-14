@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>Payment - SafePay</title>
+    <meta
+      name="description"
+      content="Do your Transactions more securely than ever"
+    />
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css"
+    />
+    <link rel="stylesheet" href="/assets/css/vanilla-zoom.min.css" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+  </head>
+
+  <body>
+    <nav
+      class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar"
+    >
+      <div class="container">
+        <a class="navbar-brand logo" href="#">SafePay</a
+        ><button
+          data-bs-toggle="collapse"
+          class="navbar-toggler"
+          data-bs-target="#navcol-1"
+        >
+          <span class="visually-hidden">Toggle navigation</span
+          ><span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/features.html">API Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/faq.html">API Documentation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/payment-page.html"
+                >Payment Simulation</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about-us.html">About Us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <main class="page payment-page">
+      <section class="clean-block payment-form dark">
+        <div class="container">
+          <div class="block-heading">
+            <h2 class="text-info">Payment Gateway Simulation</h2>
+            <p>
+              This is a simple simulation that shows a transaction being done
+              between a sender and a reciever.
+            </p>
+          </div>
+          <div class="simulation">
+            <form>
+              <div class="card-details">
+                <h3 class="title">Card Details of Sender</h3>
+                <div class="row">
+                  <div class="col-sm-7">
+                    <div class="mb-3">
+                      <label class="form-label" for="card_number"
+                        >Card Number</label
+                      ><input
+                        class="form-control"
+                        type="text"
+                        id="card_number"
+                        placeholder="Card Number"
+                        name="card_number"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="mb-3">
+                      <label class="form-label">Expiration date</label>
+                      <div class="input-group expiration-date">
+                        <input
+                          class="form-control"
+                          type="text"
+                          placeholder="MM"
+                          name="expiration_month"
+                        /><input
+                          class="form-control"
+                          type="text"
+                          placeholder="YY"
+                          name="expiration_year"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-7">
+                    <div class="mb-3">
+                      <label class="form-label" for="amount">Amount</label
+                      ><input
+                        class="form-control"
+                        type="text"
+                        id="amount"
+                        placeholder="Amount"
+                        name="amount"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="mb-3">
+                      <label class="form-label" for="cvv">CVV</label
+                      ><input
+                        class="form-control"
+                        type="text"
+                        id="cvv"
+                        placeholder="CVV"
+                        name="cvv"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <h3 class="title">Details of Reciever</h3>
+                <div class="row">
+                  <div class="col-sm-7">
+                    <div class="mb-3">
+                      <label class="form-label" for="card_number"
+                        >Account Number</label
+                      ><input
+                        class="form-control"
+                        type="text"
+                        id="card_number"
+                        placeholder="Card Number"
+                        name="card_number"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="mb-3">
+                      <button
+                        class="btn btn-primary d-block w-100"
+                        type="submit"
+                      >
+                        Proceed
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <form>
+              <div class="products">
+                <h3 class="title">Transaction Between Sender and Reciever</h3>
+                <div class="item">
+                  <span class="price">$200</span>
+                  <p class="item-name">Sender's Balance</p>
+                </div>
+                <div class="item">
+                  <span class="price">$120</span>
+                  <p class="item-name">Recievers's Balance</p>
+                </div>
+                <!-- <div class="total">
+                <span>Total</span><span class="price">$320</span>
+              </div> -->
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Start: Footer Dark -->
+    <footer class="page-footer dark">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3">
+            <h5>Get started</h5>
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Sign up</a></li>
+              <li><a href="#">Downloads</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <h5>About us</h5>
+            <ul>
+              <li><a href="#">Company Information</a></li>
+              <li><a href="#">Contact us</a></li>
+              <li><a href="#">Reviews</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <h5>Support</h5>
+            <ul>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Help desk</a></li>
+              <li><a href="#">Forums</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-3">
+            <h5>Legal</h5>
+            <ul>
+              <li><a href="#">Terms of Service</a></li>
+              <li><a href="#">Terms of Use</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <p>© 2022 Copyright Text</p>
+      </div>
+    </footer>
+    <!-- End: Footer Dark -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
+    <script src="/assets/js/vanilla-zoom.js"></script>
+    <script src="/assets/js/theme.js"></script>
+  </body>
+</html>
