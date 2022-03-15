@@ -31,8 +31,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css"
     />
+    {% comment %}
     <link rel="stylesheet" href="/assets/css/vanilla-zoom.min.css" />
     <link rel="stylesheet" href="/assets/css/styles.css" />
+    {% endcomment %}
     <style>
       @import url(https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i);
       /*!
@@ -11742,6 +11744,16 @@
         }
       })(window);
     </script>
-    <script src="/assets/js/theme.js"></script>
+    <script>
+      if (document.getElementsByClassName("clean-gallery").length > 0) {
+        baguetteBox.run(".clean-gallery", { animation: "slideIn" });
+      }
+
+      if (document.getElementsByClassName("clean-product").length > 0) {
+        window.onload = function () {
+          vanillaZoom.init("#product-preview");
+        };
+      }
+    </script>
   </body>
 </html>
