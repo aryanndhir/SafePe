@@ -18,6 +18,6 @@ from django.urls import path
 from django.conf.urls import include
 
 urlpatterns = [
-    path('', include('safe_pay.urls')),
+    path('', include('paygate.urls')),
     # path('admin/', admin.site.urls),
 ]

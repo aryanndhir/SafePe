@@ -1,11 +1,10 @@
-from django.shortcuts import render
+from datetime import date
 from sqlalchemy import true, false
+import aes
+import ecc
 import pandas as pd
 import numpy as np
 from datetime import datetime
-from datetime import date
-from django.contrib import messages
-from paygate.Encryption import aes, ecc
 
 
 def sender_bank(aes_ecc_key, aes_data):
@@ -52,51 +51,45 @@ def receiver_bank(aes_ecc_key, aes_data):
     data = aes.decryptFile(aes_data, aes_key)
 
     accNo, cvv, amount, expiryDate, recAccNo  =  data.split(",")
-    
-    recAccNo = int(recAccNo)
+    # recAccNo = int(recAccNo)
 
-    df = pd.read_excel("bank_records.xlsx")
+    # df = pd.read_excel("bank_records.xlsx")
 
-    bank_record = df.loc[df['accountno'] == recAccNo]
+    # bank_record = df.loc[df['accountno'] == recAccNo]
 
-    if(bank_record.empty):
-        return false
-    else:
+    # if(bank_record.empty):
+    #     return false
+    # else:
 
-        if amount > 0:
-            bank_record_amount = bank_record['amount'].values[0]
-            df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
-            # df.to_excel("bank_records.xlsx", index=False)
-            return true
+    #     if amount > 0:
+    #         bank_record_amount = bank_record['amount'].values[0]
+    #         df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
+    #         # df.to_excel("bank_records.xlsx", index=False)
+    #         return true
 
     return false
 
 
-def home(request):
+def PaymentGateway(data):
 
-    if request.method == "POST":
+    # accNo, cvv, amount, expiryDate =  data.split(",")
+    # concatStr = accNo + cvv + amount + expiryDate
+    concatStr = data
 
-        form = request.POST
-       
-        sender_accno = form['sender_accno']
-        cvv = form['sender_cvv']
-        amount = form['sender_amount']
-        expirydate = form['sender_expirydate']
-        receiver_accno = form['receiver_accno']
+    aes_data = aes.encryptFile(concatStr)
+    aes_key = aes.keyfile
+    aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
 
-        data = sender_accno + "," + cvv + "," +     amount + "," + expirydate + "," + receiver_accno
-        
-        aes_data = aes.encryptFile(data)
-        aes_key = aes.keyfile
-        aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
+    verification = sender_bank(aes_ecc_key, aes_data)
 
-        verification = sender_bank(aes_ecc_key, aes_data)
+    if verification == true:
+        aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
+        receiver_bank(aes_ecc_key, aes_data)
+        print("Success")
+    else:
+        print("Payment Failed")
 
-        if verification == true:
-            aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
-            receiver_bank(aes_ecc_key, aes_data)
-            messages.success("Payment Successful!")
-        else:
-            messages.error("Payment Failed!")
-        
-    return render(request, 'payment-page.html')
+
+# data = "123456789,123,100,12/12/12,98765432"
+data = "7731760391,112,50,18/12/25,2908566021"
+PaymentGateway(data)

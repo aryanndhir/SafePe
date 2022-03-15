@@ -51,21 +51,21 @@ def receiver_bank(aes_ecc_key, aes_data):
     data = aes.decryptFile(aes_data, aes_key)
 
     accNo, cvv, amount, expiryDate, recAccNo  =  data.split(",")
-    recAccNo = int(recAccNo)
+    # recAccNo = int(recAccNo)
 
     df = pd.read_excel("bank_records.xlsx")
 
-    bank_record = df.loc[df['accountno'] == recAccNo]
+    # bank_record = df.loc[df['accountno'] == recAccNo]
 
-    if(bank_record.empty):
-        return false
-    else:
+    # if(bank_record.empty):
+    #     return false
+    # else:
 
-        if amount > 0:
-            bank_record_amount = bank_record['amount'].values[0]
-            df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
-            # df.to_excel("bank_records.xlsx", index=False)
-            return true
+    #     if amount > 0:
+    #         bank_record_amount = bank_record['amount'].values[0]
+    #         df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
+    #         # df.to_excel("bank_records.xlsx", index=False)
+    #         return true
 
     return false
 
