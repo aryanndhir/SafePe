@@ -8,6 +8,14 @@ from django.contrib import messages
 from paygate.Encryption import aes, ecc
 
 
+def home(request):
+    return render(request, 'home.html')
+
+
+def features(request):
+    return render(request, 'features.html')
+
+
 def sender_bank(aes_ecc_key, aes_data):
     
     aes_key = ecc.decrypt_data(aes_ecc_key, "sender")
@@ -72,7 +80,7 @@ def receiver_bank(aes_ecc_key, aes_data):
     return false
 
 
-def home(request):
+def pay(request):
 
     if request.method == "POST":
 

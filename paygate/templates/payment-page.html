@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
     />
-    <title>Features - SafePay</title>
+    <title>Payment - SafePay</title>
     <meta
       name="description"
       content="Do your Transactions more securely than ever"
@@ -18,6 +18,7 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i"
@@ -30,7 +31,10 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.css"
     />
-    {% comment %} <link rel="stylesheet" href="/assets/css/vanilla-zoom.min.css" /> {% endcomment %}
+    {% comment %}
+    <link rel="stylesheet" href="/assets/css/vanilla-zoom.min.css" />
+    <link rel="stylesheet" href="/assets/css/styles.css" />
+    {% endcomment %}
     <style>
       @import url(https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i);
       /*!
@@ -11439,16 +11443,16 @@
         <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/index.html">Home</a>
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="/features.html">API Features</a>
+              <a class="nav-link" href="{% url 'features' %}">API Features</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/faq.html">API Documentation</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/payment-page.html"
+              <a class="nav-link active" href="{% url 'pay' %}"
                 >Payment Simulation</a
               >
             </li>
@@ -11459,53 +11463,132 @@
         </div>
       </div>
     </nav>
-    <main class="page">
-      <section class="clean-block features">
+    <main class="page payment-page">
+      <section class="clean-block payment-form dark">
         <div class="container">
           <div class="block-heading">
-            <h2 class="text-info">Features</h2>
+            <h2 class="text-info">Payment Gateway Simulation</h2>
             <p>
-              Give your company all of the tools it needs to accept online
-              payments and provide the greatest client experience.
+              This is a simple simulation that shows a transaction being done
+              between a sender and a reciever.
             </p>
           </div>
-          <div class="row justify-content-center my_row">
-            <div class="col-md-5 feature-box">
-              <!-- <i class="icon-star icon"></i> -->
-              <img class="my_icon" src="{% static 'paygate/images/Animation.gif' %}">
-              <h4>API Driven</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-                quam urna, dignissim nec auctor in, mattis vitae leo.
-              </p>
-            </div>
-            <div class="col-md-5 feature-box">
-              <!-- <i class="icon-pencil icon"></i> -->
-              <img class="my_icon" img src="assets/img/Animation_2.gif"></img>
-              <h4>Instant Activation</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-                quam urna, dignissim nec auctor in, mattis vitae leo.
-              </p>
-            </div>
-            <div class="col-md-5 feature-box">
-              <!-- <i class="icon-screen-smartphone icon"></i> -->
-              <img class="my_icon" img src="assets/img/Animation_3.gif"></img>
-              <h4>Security</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-                quam urna, dignissim nec auctor in, mattis vitae leo.
-              </p>
-            </div>
-            <div class="col-md-5 feature-box">
-              <!-- <i class="icon-refresh icon"></i> -->
-              <img class="my_icon" img src="assets/img/Animation_4.gif"></img>
-              <h4>Best Customer Support</h4>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-                quam urna, dignissim nec auctor in, mattis vitae leo.
-              </p>
-            </div>
+          <div
+            class="simulation"
+            style="
+              display: flex;
+              flex-direction: row;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <form method="POST">
+              
+              {% csrf_token %}
+              <div class="card-details">
+                <h3 class="title">Card Details of Sender</h3>
+                <div class="row">
+                  <div class="col-sm-7">
+                    <div class="mb-3">
+                      <label class="form-label" for="card_number">Card Number</label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        id="sender_accno"
+                        placeholder="Card Number"
+                        name="sender_accno"
+                        value="{{ form.sender_accno }}"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-5">
+                    <div class="mb-3">
+                      <label class="form-label">Expiration date</label>
+                      <div class="input-group expiration-date">
+                        <input
+                          class="form-control"
+                          type="text"
+                          placeholder="MM"
+                          name="expiration_month"
+                        /><input
+                          class="form-control"
+                          type="text"
+                          placeholder="YY"
+                          name="expiration_year"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-sm-7">
+                    <div class="mb-3">
+                      <label class="form-label" for="amount">Amount</label
+                      ><input
+                        class="form-control"
+                        type="text"
+                        id="amount"
+                        placeholder="Amount"
+                        name="amount"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="mb-3">
+                      <label class="form-label" for="cvv">CVV</label
+                      ><input
+                        class="form-control"
+                        type="text"
+                        id="cvv"
+                        placeholder="CVV"
+                        name="cvv"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <h3 class="title">Details of Reciever</h3>
+                <div class="row">
+                  <div class="col-sm-7">
+                    <div class="mb-3">
+                      <label class="form-label" for="card_number"
+                        >Account Number</label
+                      ><input
+                        class="form-control"
+                        type="text"
+                        id="card_number"
+                        placeholder="Card Number"
+                        name="card_number"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <div class="mb-3">
+                      <button
+                        class="btn btn-primary d-block w-100"
+                        type="submit"
+                      >
+                        Proceed
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <form>
+              <div class="products">
+                <h3 class="title">Transaction Between Sender and Reciever</h3>
+                <div class="item">
+                  <span class="price">$200</span>
+                  <p class="item-name">Sender's Balance</p>
+                </div>
+                <div class="item">
+                  <span class="price">$120</span>
+                  <p class="item-name">Recievers's Balance</p>
+                </div>
+                <!-- <div class="total">
+                <span>Total</span><span class="price">$320</span>
+              </div> -->
+              </div>
+            </form>
           </div>
         </div>
       </section>
@@ -11662,16 +11745,15 @@
       })(window);
     </script>
     <script>
-      if (document.getElementsByClassName('clean-gallery').length > 0) {
-        baguetteBox.run('.clean-gallery', { animation: 'slideIn' });
-     }
-     
-     if (document.getElementsByClassName('clean-product').length > 0) {
-         window.onload = function() {
-             vanillaZoom.init('#product-preview');
-         };
-     }
-     
+      if (document.getElementsByClassName("clean-gallery").length > 0) {
+        baguetteBox.run(".clean-gallery", { animation: "slideIn" });
+      }
+
+      if (document.getElementsByClassName("clean-product").length > 0) {
+        window.onload = function () {
+          vanillaZoom.init("#product-preview");
+        };
+      }
     </script>
   </body>
 </html>
