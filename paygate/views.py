@@ -86,11 +86,15 @@ def pay(request):
 
         form = request.POST
        
+        print(form)
+
         sender_accno = form['sender_accno']
         cvv = form['sender_cvv']
         amount = form['sender_amount']
-        expirydate = form['sender_expirydate']
+        expiryMonth = form['sender_expirymonth']
+        expiryYear = form['sender_expiryyear']
         receiver_accno = form['receiver_accno']
+        expirydate = expiryMonth + "/" + expiryYear
 
         data = sender_accno + "," + cvv + "," +     amount + "," + expirydate + "," + receiver_accno
         

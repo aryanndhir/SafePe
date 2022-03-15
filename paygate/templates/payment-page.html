@@ -11497,7 +11497,6 @@
                         id="sender_accno"
                         placeholder="Card Number"
                         name="sender_accno"
-                        value="{{ form.sender_accno }}"
                       />
                     </div>
                   </div>
@@ -11506,15 +11505,17 @@
                       <label class="form-label">Expiration date</label>
                       <div class="input-group expiration-date">
                         <input
+                          id="sender_expirymonth"
                           class="form-control"
                           type="text"
                           placeholder="MM"
-                          name="expiration_month"
+                          name="sender_expirymonth"
                         /><input
+                          id="sender_expiryyear"
                           class="form-control"
                           type="text"
                           placeholder="YY"
-                          name="expiration_year"
+                          name="sender_expiryyear"
                         />
                       </div>
                     </div>
@@ -11525,9 +11526,9 @@
                       ><input
                         class="form-control"
                         type="text"
-                        id="amount"
+                        id="sender_amount"
                         placeholder="Amount"
-                        name="amount"
+                        name="sender_amount"
                       />
                     </div>
                   </div>
@@ -11537,9 +11538,9 @@
                       ><input
                         class="form-control"
                         type="text"
-                        id="cvv"
+                        id="sender_cvv"
                         placeholder="CVV"
-                        name="cvv"
+                        name="sender_cvv"
                       />
                     </div>
                   </div>
@@ -11553,9 +11554,9 @@
                       ><input
                         class="form-control"
                         type="text"
-                        id="card_number"
+                        id="receiver_accno"
                         placeholder="Card Number"
-                        name="card_number"
+                        name="receiver_accno"
                       />
                     </div>
                   </div>
