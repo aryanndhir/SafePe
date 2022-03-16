@@ -17,7 +17,7 @@ def features(request):
 
 
 def doc(request):
-    return render(request, 'documentation.html')
+    return render(request, 'api-documentation.html')
 
 
 def sender_bank(aes_ecc_key, aes_data):
