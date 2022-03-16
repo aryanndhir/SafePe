@@ -9,10 +9,13 @@ keyfile = secrets.token_hex(32)
 print(keyfile)
 
 
-def encryptFile(filename):
+def encryptFile(filename):       
     plainBlock = getLargeBlock(filename)
     encryptedBlock = []
     lenFill = len(str(len(plainBlock)))
+
+    print("Plain text: ", filename)
+
     for i in range(len(plainBlock)):
         encryptedBlock.append(encrypt(plainBlock[i], getKey(keyfile)))
         print("Encrypted: " + str(i).zfill(lenFill)+"/" +
@@ -20,6 +23,9 @@ def encryptFile(filename):
     print("Encrypted: "+str(len(plainBlock)))
 
     finaldata = writeToOutputHex(encryptedBlock)
+
+    print("Encrypted Data: ", finaldata)
+
     return finaldata
 
 
@@ -27,9 +33,11 @@ def decryptFile(filename, keyfile1):
     inputBlock = getLargeHexBlock(filename)
     for i in range(len(inputBlock)):
         inputBlock[i] = decrypt(inputBlock[i], getKey(keyfile))
-        print(str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")  # check
+        print("Decrypted: ", str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")  # check
 
     finalDecryptdata = writeToOutputPlain(inputBlock)
+
+    print("Decrypted Data: ", finalDecryptdata)
 
     return finalDecryptdata
 
