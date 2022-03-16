@@ -16,6 +16,10 @@ def features(request):
     return render(request, 'features.html')
 
 
+def doc(request):
+    return render(request, 'documentation.html')
+
+
 def sender_bank(aes_ecc_key, aes_data):
     
     aes_key = ecc.decrypt_data(aes_ecc_key, "sender")
