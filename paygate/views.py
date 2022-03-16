@@ -52,7 +52,7 @@ def sender_bank(aes_ecc_key, aes_data):
                 if bank_record_expiryDate == expiryDate and expiryDate >= todayDate:
                     
                     df.loc[df['accountno'] == accNo, 'amount'] = bank_record_amount - int(amount)                    
-                    df.to_excel("bank_records.xlsx", index=False)
+                    # df.to_excel("bank_records.xlsx", index=False)
                 else:
                     return "Expiry date is incorrect or has passed"
             else:
@@ -83,7 +83,7 @@ def receiver_bank(aes_ecc_key, aes_data):
     else:
         bank_record_amount = bank_record['amount'].values[0]
         df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
-        df.to_excel("bank_records.xlsx", index=False)
+        # df.to_excel("bank_records.xlsx", index=False)
 
     return "success"
 
@@ -103,7 +103,7 @@ def pay(request):
         receiver_accno = form['receiver_accno']
         expirydate = expiryDate + "/" + expiryMonth + "/" + expiryYear
 
-        data = sender_accno + "," + cvv + "," +     amount + "," + expirydate + "," + receiver_accno
+        data = sender_accno + "," + cvv + "," + amount + "," + expirydate + "," + receiver_accno
         
         aes_data = aes.encryptFile(data)
         aes_key = aes.keyfile
@@ -119,7 +119,6 @@ def pay(request):
                 messages.success(request, 'Payment successful!')
             else:
                 messages.error(request, receiver_verification)
-            
         else:
             messages.error(request, sender_verification)
 
