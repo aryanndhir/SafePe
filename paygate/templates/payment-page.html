@@ -197,22 +197,44 @@
               </div>
             </form>
 
-            <form>
-              <div class="products">
-                <h3 class="title">Transaction Between Sender and Reciever</h3>
-                <div class="item">
-                  <span class="price">$200</span>
-                  <p class="item-name">Sender's Balance</p>
+            {% if sender_amount %}
+              <form>
+                <div class="products">
+                  <h3 class="title">Transaction Between Sender and Reciever</h3>
+                  <div class="item">
+                    <span class="price">{{ sender_amount }}</span>
+                    <p class="item-name">Sender's Balance</p>
+                  </div>
+                  <div class="item">
+                    <span class="price">{{ receiver_amount }}</span>
+                    <p class="item-name">Recievers's Balance</p>
+                  </div>
+                  <!-- <div class="total">
+                  <span>Total</span><span class="price">$320</span>
+                </div> -->
                 </div>
-                <div class="item">
-                  <span class="price">$120</span>
-                  <p class="item-name">Recievers's Balance</p>
+              </form>
+
+            {% else %}
+
+              <form>
+                <div class="products">
+                  <h3 class="title">Transaction Between Sender and Reciever</h3>
+                  <div class="item">
+                    <span class="price">$200</span>
+                    <p class="item-name">Sender's Balance</p>
+                  </div>
+                  <div class="item">
+                    <span class="price">$120</span>
+                    <p class="item-name">Recievers's Balance</p>
+                  </div>
+                  <!-- <div class="total">
+                  <span>Total</span><span class="price">$320</span>
+                </div> -->
                 </div>
-                <!-- <div class="total">
-                <span>Total</span><span class="price">$320</span>
-              </div> -->
-              </div>
-            </form>
+              </form>
+
+              {% endif %}
           </div>
         </div>
       </section>

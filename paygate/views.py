@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from matplotlib.style import context
 from sqlalchemy import true, false
 import pandas as pd
 import numpy as np
@@ -52,7 +53,7 @@ def sender_bank(aes_ecc_key, aes_data):
                 if bank_record_expiryDate == expiryDate and expiryDate >= todayDate:
                     
                     df.loc[df['accountno'] == accNo, 'amount'] = bank_record_amount - int(amount)                    
-                    # df.to_excel("bank_records.xlsx", index=False)
+                    df.to_excel("bank_records.xlsx", index=False)
                 else:
                     return "Expiry date is incorrect or has passed"
             else:
@@ -60,7 +61,7 @@ def sender_bank(aes_ecc_key, aes_data):
         else:
             return "Invalid CVV"
 
-    return "success"
+    return bank_record_amount - amount
 
 
 def receiver_bank(aes_ecc_key, aes_data):
@@ -83,9 +84,9 @@ def receiver_bank(aes_ecc_key, aes_data):
     else:
         bank_record_amount = bank_record['amount'].values[0]
         df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
-        # df.to_excel("bank_records.xlsx", index=False)
+        df.to_excel("bank_records.xlsx", index=False)
 
-    return "success"
+    return bank_record_amount + amount
 
 
 def pay(request):
@@ -109,17 +110,28 @@ def pay(request):
         aes_key = aes.keyfile
         aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
 
-        sender_verification = sender_bank(aes_ecc_key, aes_data)
+        sender_verification = sender_bank(aes_ecc_key, aes_data)        
 
-        if sender_verification == "success":
+        if type(sender_verification) == np.int64:
             aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
             receiver_verification = receiver_bank(aes_ecc_key, aes_data)
 
-            if receiver_verification == "success":
+            if type(receiver_verification) == np.int64:
                 messages.success(request, 'Payment successful!')
+                context = {
+                    'transaction': 1,
+                    'sender_amount': sender_verification,
+                    'receiver_amount': receiver_verification,
+                }
+                return render(request, 'payment-page.html', context)
+            
             else:
                 messages.error(request, receiver_verification)
         else:
             messages.error(request, sender_verification)
 
-    return render(request, 'payment-page.html')
+    context = {
+        'transaction': 0
+    }
+
+    return render(request, 'payment-page.html', context)
