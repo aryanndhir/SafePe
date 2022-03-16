@@ -84,24 +84,27 @@
       </div>
     </nav>
     <main class="page payment-page">
-      {% for message in messages %}
-      <div class="mess" style="margin: 0px 30px">
-        <div class="container-fluid p-0">
-          <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-            <button
-              type="button"
-              class="close"
-              data-dismiss="alert"
-              aria-label="Close"
+      <section class="clean-block payment-form dark">
+        {% for message in messages %}
+        <div class="mess" style="margin: 0px 30px">
+          <div class="container-fluid p-0">
+            <div
+              class="alert {{ message.tags }} alert-dismissible"
+              role="alert"
             >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            {{ message }}
+              <button
+                type="button"
+                class="close"
+                data-dismiss="alert"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {{ message }}
+            </div>
           </div>
         </div>
-      </div>
-      {% endfor %}
-      <section class="clean-block payment-form dark">
+        {% endfor %}
         <div class="container">
           <div class="block-heading">
             <h2 class="text-info">Payment Gateway Simulation</h2>
