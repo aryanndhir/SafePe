@@ -11483,14 +11483,15 @@
             "
           >
             <form method="POST">
-              
               {% csrf_token %}
               <div class="card-details">
                 <h3 class="title">Card Details of Sender</h3>
                 <div class="row">
                   <div class="col-sm-7">
                     <div class="mb-3">
-                      <label class="form-label" for="card_number">Card Number</label>
+                      <label class="form-label" for="card_number"
+                        >Card Number</label
+                      >
                       <input
                         class="form-control"
                         type="text"
@@ -11504,6 +11505,13 @@
                     <div class="mb-3">
                       <label class="form-label">Expiration date</label>
                       <div class="input-group expiration-date">
+                        <input
+                          id="sender_expirydate"
+                          class="form-control"
+                          type="text"
+                          placeholder="DD"
+                          name="sender_expirydate"
+                        />
                         <input
                           id="sender_expirymonth"
                           class="form-control"
