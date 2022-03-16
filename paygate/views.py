@@ -17,15 +17,15 @@ def features(request):
 
 
 def doc(request):
-    return render(request, 'api-documentation.html')
+    return render(request, 'documentation.html')
 
 
 def sender_bank(aes_ecc_key, aes_data):
-
+    
     aes_key = ecc.decrypt_data(aes_ecc_key, "sender")
     data = aes.decryptFile(aes_data, aes_key)
 
-    accNo, cvv, amount, expiryDate, rec_accNo = data.split(",")
+    accNo, cvv, amount, expiryDate, rec_accNo  =  data.split(",")
 
     df = pd.read_excel("bank_records.xlsx")
 
@@ -44,15 +44,14 @@ def sender_bank(aes_ecc_key, aes_data):
     else:
         bank_record_cvv = bank_record['cvv'].values[0]
         if bank_record_cvv == cvv:
-
+            
             bank_record_amount = bank_record['amount'].values[0]
             if bank_record_amount >= amount and amount > 0:
 
                 bank_record_expiryDate = bank_record['expirydate'].values[0]
                 if bank_record_expiryDate == expiryDate and expiryDate >= todayDate:
-
-                    df.loc[df['accountno'] == accNo,
-                           'amount'] = bank_record_amount - int(amount)
+                    
+                    df.loc[df['accountno'] == accNo, 'amount'] = bank_record_amount - int(amount)                    
                     df.to_excel("bank_records.xlsx", index=False)
                 else:
                     return "Expiry date is incorrect or has passed"
@@ -65,13 +64,13 @@ def sender_bank(aes_ecc_key, aes_data):
 
 
 def receiver_bank(aes_ecc_key, aes_data):
-
+    
     aes_key = ecc.decrypt_data(aes_ecc_key, "receiver")
     data = aes.decryptFile(aes_data, aes_key)
 
-    accNo, cvv, amount, expiryDate, recAccNo = data.split(",")
-
-    recAccNo = recAccNo.strip().strip('*\x00')
+    accNo, cvv, amount, expiryDate, recAccNo  =  data.split(",")
+    
+    recAccNo = recAccNo.strip().strip('*\x00') 
     recAccNo = int(recAccNo)
     amount = int(amount)
 
@@ -83,8 +82,7 @@ def receiver_bank(aes_ecc_key, aes_data):
         return "Receiver's account number does not exist"
     else:
         bank_record_amount = bank_record['amount'].values[0]
-        df.loc[df['accountno'] == recAccNo,
-               'amount'] = bank_record_amount + amount
+        df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
         df.to_excel("bank_records.xlsx", index=False)
 
     return "success"
@@ -105,9 +103,8 @@ def pay(request):
         receiver_accno = form['receiver_accno']
         expirydate = expiryDate + "/" + expiryMonth + "/" + expiryYear
 
-        data = sender_accno + "," + cvv + "," + amount + \
-            "," + expirydate + "," + receiver_accno
-
+        data = sender_accno + "," + cvv + "," +     amount + "," + expirydate + "," + receiver_accno
+        
         aes_data = aes.encryptFile(data)
         aes_key = aes.keyfile
         aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
@@ -122,7 +119,7 @@ def pay(request):
                 messages.success(request, 'Payment successful!')
             else:
                 messages.error(request, receiver_verification)
-
+            
         else:
             messages.error(request, sender_verification)
 
