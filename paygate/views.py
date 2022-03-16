@@ -61,7 +61,9 @@ def receiver_bank(aes_ecc_key, aes_data):
 
     accNo, cvv, amount, expiryDate, recAccNo  =  data.split(",")
     
+    recAccNo = recAccNo.strip().strip('*\x00') 
     recAccNo = int(recAccNo)
+    amount = int(amount)
 
     df = pd.read_excel("bank_records.xlsx")
 
@@ -85,16 +87,15 @@ def pay(request):
     if request.method == "POST":
 
         form = request.POST
-       
-        print(form)
 
         sender_accno = form['sender_accno']
         cvv = form['sender_cvv']
         amount = form['sender_amount']
+        expiryDate = form['sender_expirydate']
         expiryMonth = form['sender_expirymonth']
         expiryYear = form['sender_expiryyear']
         receiver_accno = form['receiver_accno']
-        expirydate = expiryMonth + "/" + expiryYear
+        expirydate = expiryDate + "/" + expiryMonth + "/" + expiryYear
 
         data = sender_accno + "," + cvv + "," +     amount + "," + expirydate + "," + receiver_accno
         
@@ -107,8 +108,8 @@ def pay(request):
         if verification == true:
             aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
             receiver_bank(aes_ecc_key, aes_data)
-            messages.success("Payment Successful!")
+            messages.success(request, "Payment Successful!")
         else:
-            messages.error("Payment Failed!")
+            messages.error(request, "Payment Failed!")
         
     return render(request, 'payment-page.html')
