@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from matplotlib.style import context
 from sqlalchemy import true, false
 import pandas as pd
 import numpy as np
@@ -62,7 +61,7 @@ def sender_bank(aes_ecc_key, aes_data):
         else:
             return "Invalid CVV"
 
-    return bank_record_amount - amount
+    return "success"
 
 
 def receiver_bank(aes_ecc_key, aes_data):
@@ -88,7 +87,7 @@ def receiver_bank(aes_ecc_key, aes_data):
                'amount'] = bank_record_amount + amount
         df.to_excel("bank_records.xlsx", index=False)
 
-    return bank_record_amount + amount
+    return "success"
 
 
 def pay(request):
@@ -115,26 +114,16 @@ def pay(request):
 
         sender_verification = sender_bank(aes_ecc_key, aes_data)
 
-        if type(sender_verification) == np.int64:
+        if sender_verification == "success":
             aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
             receiver_verification = receiver_bank(aes_ecc_key, aes_data)
 
-            if type(receiver_verification) == np.int64:
+            if receiver_verification == "success":
                 messages.success(request, 'Payment successful!')
-                context = {
-                    'transaction': 1,
-                    'sender_amount': sender_verification,
-                    'receiver_amount': receiver_verification,
-                }
-                return render(request, 'payment-page.html', context)
-
             else:
                 messages.error(request, receiver_verification)
+
         else:
             messages.error(request, sender_verification)
 
-    context = {
-        'transaction': 0
-    }
-
-    return render(request, 'payment-page.html', context)
+    return render(request, 'payment-page.html')
