@@ -38,24 +38,29 @@ def sender_bank(aes_ecc_key, aes_data):
     todayDate = np.datetime64(date.today())
 
     bank_record = df.loc[df['accountno'] == accNo]
-    bank_record_cvv = bank_record['cvv'].values[0]
-    bank_record_amount = bank_record['amount'].values[0]
-    bank_record_expiryDate = bank_record['expirydate'].values[0]
 
     if(bank_record.empty):
-        return false
+        return "Sender's account number does not exist"
     else:
+        bank_record_cvv = bank_record['cvv'].values[0]
         if bank_record_cvv == cvv:
             
+            bank_record_amount = bank_record['amount'].values[0]
             if bank_record_amount >= amount and amount > 0:
 
+                bank_record_expiryDate = bank_record['expirydate'].values[0]
                 if bank_record_expiryDate == expiryDate and expiryDate >= todayDate:
                     
                     df.loc[df['accountno'] == accNo, 'amount'] = bank_record_amount - int(amount)                    
-                    # df.to_excel("bank_records.xlsx", index=False)
-                    return true
+                    df.to_excel("bank_records.xlsx", index=False)
+                else:
+                    return "Expiry date is incorrect or has passed"
+            else:
+                return "Insufficient funds"
+        else:
+            return "Invalid CVV"
 
-    return false
+    return "success"
 
 
 def receiver_bank(aes_ecc_key, aes_data):
@@ -74,16 +79,13 @@ def receiver_bank(aes_ecc_key, aes_data):
     bank_record = df.loc[df['accountno'] == recAccNo]
 
     if(bank_record.empty):
-        return false
+        return "Receiver's account number does not exist"
     else:
+        bank_record_amount = bank_record['amount'].values[0]
+        df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
+        df.to_excel("bank_records.xlsx", index=False)
 
-        if amount > 0:
-            bank_record_amount = bank_record['amount'].values[0]
-            df.loc[df['accountno'] == recAccNo, 'amount'] = bank_record_amount + amount
-            # df.to_excel("bank_records.xlsx", index=False)
-            return true
-
-    return false
+    return "success"
 
 
 def pay(request):
@@ -107,13 +109,18 @@ def pay(request):
         aes_key = aes.keyfile
         aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
 
-        verification = sender_bank(aes_ecc_key, aes_data)
+        sender_verification = sender_bank(aes_ecc_key, aes_data)
 
-        if verification == true:
+        if sender_verification == "success":
             aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
-            receiver_bank(aes_ecc_key, aes_data)
-            messages.success(request, "Payment Successful!")
+            receiver_verification = receiver_bank(aes_ecc_key, aes_data)
+
+            if receiver_verification == "success":
+                messages.success(request, 'Payment successful!')
+            else:
+                messages.error(request, receiver_verification)
+            
         else:
-            messages.error(request, "Payment Failed!")
-        
+            messages.error(request, sender_verification)
+
     return render(request, 'payment-page.html')
