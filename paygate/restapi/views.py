@@ -1,4 +1,3 @@
-from email import message
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -15,11 +14,11 @@ def transact(request):
     if request.method == 'POST':
         serializer = TransactSerializer(data = request.data)
         if serializer.is_valid():
-            sender_accno = serializer.data['sender_accno']
-            cvv = serializer.data['cvv']
+            sender_accno = str(serializer.data['sender_accno'])
+            cvv = str(serializer.data['cvv'])
             expirydate = serializer.data['exp_date']
-            amount = serializer.data['amount']
-            receiver_accno = serializer.data['rec_accno']
+            amount = str(serializer.data['amount'])
+            receiver_accno = str(serializer.data['rec_accno'])
 
             data = sender_accno + "," + cvv + "," + amount + "," + expirydate + "," + receiver_accno
 
@@ -36,8 +35,8 @@ def transact(request):
                 if type(receiver_verification) == np.int64:
                     
                     msg = {
-                        'sender balance': sender_verification,
-                        'receiver balance': receiver_verification
+                        'sender balance': sender_verification.item(),
+                        'receiver balance': receiver_verification.item()
                     }
 
                     return JsonResponse(msg, status=status.HTTP_201_CREATED, safe=False)
