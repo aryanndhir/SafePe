@@ -19,5 +19,7 @@ from django.conf.urls import include
 
 urlpatterns = [
     path('', include('paygate.urls')),
-    # path('admin/', admin.site.urls),
+
+    # REST FRAMEWORK URLS
+    path('api', include('paygate.restapi.urls')),
 ]
