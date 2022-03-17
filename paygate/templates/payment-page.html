@@ -81,7 +81,7 @@
     </nav>
     <main class="page payment-page">
       <section class="clean-block payment-form dark">
-        {% for message in messages %}
+        {% if messages %} {% for message in messages %}
         <div
           class="alert {{message.tags}} alert-dismissible fade show"
           role="alert"
@@ -94,7 +94,7 @@
             aria-label="Close"
           ></button>
         </div>
-        {% endfor %}
+        {% endfor %} {% endif %}
         <div class="container">
           <div class="block-heading">
             <h2 class="text-info">Payment Gateway Simulation</h2>
