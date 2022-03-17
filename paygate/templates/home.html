@@ -113,42 +113,26 @@
     </main>
 
     <footer class="page-footer dark">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-3">
-            <h5><a href="#">Home</a></h5>
-            <!-- <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Sign up</a></li>
-                <li><a href="#">Downloads</a></li>
-              </ul>  -->
+        <div class=" my_row" style="
+        display:flex;
+        flex-direction:row;
+        justify-content:space-evenly;
+        align-items:center;
+
+        ">
+          <div>
+            <h5><a href="{% url 'home' %}">Home</a></h5> 
           </div>
-          <div class="col-sm-3">
-            <h5><a href="#">Features Provided</a></h5>
-            <!-- <ul>
-                <li><a href="#">Company Information</a></li>
-                <li><a href="#">Contact us</a></li>
-                <li><a href="#">Reviews</a></li>
-              </ul> -->
+          <div>
+            <h5><a href="{% url 'features' %}">Features Provided</a></h5>            
           </div>
-          <div class="col-sm-3">
-            <h5><a href="#">Documentation</a></h5>
-            <!-- <ul>
-                <li><a href="#">FAQ</a></li>
-                <li><a href="#">Help desk</a></li>
-                <li><a href="#">Forums</a></li>
-              </ul> -->
+          <div>
+            <h5><a href="{% url 'doc' %}">Documentation</a></h5>           
           </div>
-          <div class="col-sm-3">
-            <h5><a href="#">Simulation</a></h5>
-            <!-- <ul>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Terms of Use</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-              </ul> -->
+          <div>
+            <h5><a href="{% url 'pay' %}">Simulation</a></h5>            
           </div>
         </div>
-      </div>
       <div class="footer-copyright">
         <p>© 2022 Copyright Text</p>
       </div>
