@@ -42,19 +42,39 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
-        <div class="container"><a class="navbar-brand logo" href="#">SafePay</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/features.html">API Features</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/faq.html">API Documentation</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/payment-page.html">Payment Simulation</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about-us.html">About Us</a></li>
-                </ul>
-            </div>
+    <nav
+        class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar"
+      >
+        <div class="container">
+          <a class="navbar-brand logo" href="#">SafePay</a
+          ><button
+            data-bs-toggle="collapse"
+            class="navbar-toggler"
+            data-bs-target="#navcol-1"
+          >
+            <span class="visually-hidden">Toggle navigation</span
+            ><span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="{% url 'home' %}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'features' %}">API Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'doc' %}">API Documentation</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'pay' %}"
+                  >Payment Simulation</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
-    </nav>
+      </nav>
     <main class="page faq-page">
         <section class="clean-block clean-faq dark">
             <div class="container">

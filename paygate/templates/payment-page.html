@@ -47,6 +47,7 @@
   </head>
 
   <body>
+    {% comment %} HEADER {% endcomment %}
     <nav
       class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar"
     >
@@ -63,21 +64,16 @@
         <div class="collapse navbar-collapse" id="navcol-1">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">Home</a>
+              <a class="nav-link active" href="{% url 'home' %}">Home</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'features' %}">API Features</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/faq.html">API Documentation</a>
+              <a class="nav-link" href="{% url 'doc' %}">API Documentation</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="{% url 'pay' %}"
-                >Payment Simulation</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about-us.html">About Us</a>
+              <a class="nav-link" href="{% url 'pay' %}">Payment Simulation</a>
             </li>
           </ul>
         </div>
