@@ -51,8 +51,7 @@ def sender_bank(aes_ecc_key, aes_data):
                 bank_record_expiryDate = bank_record['expirydate'].values[0]
                 if bank_record_expiryDate == expiryDate and expiryDate >= todayDate:
 
-                    df.loc[df['accountno'] == accNo,
-                           'amount'] = bank_record_amount - int(amount)
+                    df.loc[df['accountno'] == accNo, 'amount'] = bank_record_amount - int(amount)
                     df.to_excel("bank_records.xlsx", index=False)
                 else:
                     return "Expiry date is incorrect or has passed"

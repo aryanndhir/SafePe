@@ -6,7 +6,7 @@ from ..Encryption.readKeyFile import *
 
 
 keyfile = secrets.token_hex(32)
-print(keyfile)
+# print(keyfile)
 
 
 def encryptFile(filename):       
