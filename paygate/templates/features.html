@@ -41,6 +41,7 @@
     {% comment %} HEADER {% endcomment %}
     <nav
         class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar"
+        style="background-color: #e0dfe0 !important;"
       >
         <div class="container">
           <a class="navbar-brand logo" href="#">SafePay</a
@@ -136,13 +137,13 @@
       </section>
     </main>
     <!-- Start: Footer Dark -->
-    <footer class="page-footer dark">
+    <footer class="page-footer dark" style="background-color:#322058">
       <div class=" my_row" style="
       display:flex;
       flex-direction:row;
       justify-content:space-evenly;
       align-items:center;
-
+      
       ">
         <div>
           <h5><a href="{% url 'home' %}">Home</a></h5> 
@@ -156,8 +157,10 @@
         <div>
           <h5><a href="{% url 'pay' %}">Simulation</a></h5>            
         </div>
+        
       </div>
-    <div class="footer-copyright">
+    <div class="footer-copyright" style="background-color: #322058;
+    border-color: #322058;">
       <p>© 2022 SafePay Copyright</p>
     </div>
   </footer>
