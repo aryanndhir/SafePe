@@ -1,3 +1,8 @@
+import django_heroku
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
+
 """
 Django settings for safe_pay project.
 
@@ -32,9 +37,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6_-w439o@7l6%#uj6xd7x0(4*a$cb*ka=3gwmzgy5=y#a@tlf3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'safepe.herokuapp.com'
+    ]
 
 
 # Application definition
@@ -52,6 +59,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
