@@ -54,7 +54,7 @@ def sender_bank(aes_ecc_key, aes_data):
                 bank_record_expiryDate = bank_record['expirydate'].values[0]
                 if bank_record_expiryDate == expiryDate and expiryDate >= todayDate:
 
-                    df.loc[df['accountno'] == accNo, 'amount'] = bank_record_amount - int(amount)
+                    df.loc[df['accountno'] == accNo, 'amount'] = bank_record_amount - amount
                     df.to_excel("bank_records.xlsx", index=False)
                 else:
                     return "Expiry date is incorrect or has passed"
@@ -107,8 +107,7 @@ def pay(request):
         receiver_accno = form['receiver_accno']
         expirydate = expiryDate + "/" + expiryMonth + "/" + expiryYear
 
-        data = sender_accno + "," + cvv + "," + amount + \
-            "," + expirydate + "," + receiver_accno
+        data = sender_accno + "," + cvv + "," + amount + "," + expirydate + "," + receiver_accno
 
         start_enc_timer = time.time()
         tracemalloc.start()
@@ -124,7 +123,6 @@ def pay(request):
         top_stats = snapshot.statistics('lineno')
         total = sum(stat.size for stat in top_stats)
         print("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
-        # print("Encryption memory consumed: ", tracemalloc.get_traced_memory())
         tracemalloc.stop()
 
         sender_verification = sender_bank(aes_ecc_key, aes_data)
@@ -144,7 +142,6 @@ def pay(request):
             top_stats = snapshot.statistics('lineno')
             total = sum(stat.size for stat in top_stats)
             print("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
-            # print("Decryption memory consumed: ", tracemalloc.get_traced_memory())
             tracemalloc.stop()
 
             print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
