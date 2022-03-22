@@ -105,6 +105,10 @@ def pay(request):
         expiryMonth = form['sender_expirymonth']
         expiryYear = form['sender_expiryyear']
         receiver_accno = form['receiver_accno']
+
+        if len(expiryYear) == 1:
+            expiryYear = "0" + expiryYear
+
         expirydate = expiryDate + "/" + expiryMonth + "/" + expiryYear
 
         data = sender_accno + "," + cvv + "," + amount + "," + expirydate + "," + receiver_accno
