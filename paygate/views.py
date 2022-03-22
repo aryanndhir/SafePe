@@ -1,3 +1,5 @@
+from inspect import trace
+import time
 from django.shortcuts import render
 from sqlalchemy import true, false
 import pandas as pd
@@ -6,6 +8,7 @@ from datetime import datetime
 from datetime import date
 from django.contrib import messages
 from paygate.Encryption import aes, ecc
+import tracemalloc
 
 
 def home(request):
@@ -107,15 +110,44 @@ def pay(request):
         data = sender_accno + "," + cvv + "," + amount + \
             "," + expirydate + "," + receiver_accno
 
+        start_enc_timer = time.time()
+        tracemalloc.start()
+
         aes_data = aes.encryptFile(data)
         aes_key = aes.keyfile
         aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
 
+        end_enc_timer = time.time()
+        print("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
+
+        snapshot = tracemalloc.take_snapshot()
+        top_stats = snapshot.statistics('lineno')
+        total = sum(stat.size for stat in top_stats)
+        print("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
+        # print("Encryption memory consumed: ", tracemalloc.get_traced_memory())
+        tracemalloc.stop()
+
         sender_verification = sender_bank(aes_ecc_key, aes_data)
 
         if type(sender_verification) == np.int64:
+
+            start_dec_timer = time.time()
+            tracemalloc.start()
+
             aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
             receiver_verification = receiver_bank(aes_ecc_key, aes_data)
+
+            end_dec_timer = time.time()
+            print("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
+
+            snapshot = tracemalloc.take_snapshot()
+            top_stats = snapshot.statistics('lineno')
+            total = sum(stat.size for stat in top_stats)
+            print("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
+            # print("Decryption memory consumed: ", tracemalloc.get_traced_memory())
+            tracemalloc.stop()
+
+            print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
 
             if type(receiver_verification) == np.int64:
                 messages.success(request, 'Payment successful!')
