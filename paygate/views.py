@@ -156,28 +156,8 @@ def pay(request):
         if type(sender_verification) == np.int64:
 
             aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
-
-            # start_dec_timer = time.time()
-            # tracemalloc.start()
-
+            
             receiver_verification = receiver_bank(aes_ecc_key, aes_data)
-
-            # end_dec_timer = time.time()
-            # # print("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
-
-            # decryption_time = end_dec_timer - start_dec_timer
-            # logger.warning("Decryption time: %s seconds", decryption_time)
-
-            # snapshot = tracemalloc.take_snapshot()
-            # top_stats = snapshot.statistics('lineno')
-            # total = sum(stat.size for stat in top_stats)
-            # # print("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
-            # logger.warning("Memory consumed in Decryption: %.1f KB" % (total / 1024))
-            # tracemalloc.stop()
-
-            # # print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
-            # total_time = end_dec_timer - start_enc_timer
-            # logger.warning("Total time elapsed: %s seconds", total_time)
 
             if type(receiver_verification) == np.int64:
                 messages.success(request, 'Payment successful!')
