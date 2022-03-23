@@ -125,14 +125,14 @@ def pay(request):
 
         end_enc_timer = time.time()
         # print("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
-        logger.info("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
+        logger.warning("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
 
 
         snapshot = tracemalloc.take_snapshot()
         top_stats = snapshot.statistics('lineno')
         total = sum(stat.size for stat in top_stats)
         # print("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
-        logger.info("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
+        logger.warning("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
         tracemalloc.stop()
 
         sender_verification = sender_bank(aes_ecc_key, aes_data)
@@ -147,17 +147,17 @@ def pay(request):
 
             end_dec_timer = time.time()
             # print("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
-            logger.info("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
+            logger.warning("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
 
             snapshot = tracemalloc.take_snapshot()
             top_stats = snapshot.statistics('lineno')
             total = sum(stat.size for stat in top_stats)
             # print("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
-            logger.info("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
+            logger.warning("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
             tracemalloc.stop()
 
             # print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
-            logger.info("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
+            logger.warning("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
 
             if type(receiver_verification) == np.int64:
                 messages.success(request, 'Payment successful!')

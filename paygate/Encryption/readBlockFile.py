@@ -45,7 +45,7 @@ def getLargeBlock(blockFile):
             blockArray.append(tempArray[0:16])
             tempArray = tempArray[16:]
             # print("Reading file \r")
-            logger.info("Reading file \r")
+            logger.warning("Reading file \r")
             if (len(tempArray) < 16 and len(tempArray) > 0):
                 arr = [0]*16
                 n = 0
