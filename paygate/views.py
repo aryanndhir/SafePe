@@ -139,10 +139,11 @@ def pay(request):
 
         if type(sender_verification) == np.int64:
 
+            aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
+
             start_dec_timer = time.time()
             tracemalloc.start()
 
-            aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
             receiver_verification = receiver_bank(aes_ecc_key, aes_data)
 
             end_dec_timer = time.time()
