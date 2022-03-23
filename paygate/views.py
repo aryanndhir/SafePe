@@ -26,10 +26,26 @@ def doc(request):
     return render(request, 'api-documentation.html')
 
 
-def sender_bank(aes_ecc_key, aes_data):
+def sender_bank(aes_ecc_key, aes_data, start_enc_timer):
+
+    start_dec_timer = time.time()
+    tracemalloc.start()
 
     aes_key = ecc.decrypt_data(aes_ecc_key, "sender")
     data = aes.decryptFile(aes_data, aes_key)
+
+    end_dec_timer = time.time()
+    decryption_time = end_dec_timer - start_dec_timer
+    logger.warning("Decryption time: %s seconds", decryption_time)
+
+    snapshot = tracemalloc.take_snapshot()
+    top_stats = snapshot.statistics('lineno')
+    total = sum(stat.size for stat in top_stats)
+    logger.warning("Memory consumed in Decryption: %.1f KB" % (total / 1024))
+    tracemalloc.stop()
+
+    total_time = end_dec_timer - start_enc_timer
+    logger.warning("Total time elapsed: %s seconds", total_time)
 
     accNo, cvv, amount, expiryDate, rec_accNo = data.split(",")
 
@@ -135,33 +151,33 @@ def pay(request):
         logger.warning("Memory consumed in Encryption: %.1f KB" % (total / 1024))
         tracemalloc.stop()
 
-        sender_verification = sender_bank(aes_ecc_key, aes_data)
+        sender_verification = sender_bank(aes_ecc_key, aes_data, start_enc_timer)
 
         if type(sender_verification) == np.int64:
 
             aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
 
-            start_dec_timer = time.time()
-            tracemalloc.start()
+            # start_dec_timer = time.time()
+            # tracemalloc.start()
 
             receiver_verification = receiver_bank(aes_ecc_key, aes_data)
 
-            end_dec_timer = time.time()
-            # print("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
+            # end_dec_timer = time.time()
+            # # print("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
 
-            decryption_time = end_dec_timer - start_dec_timer
-            logger.warning("Decryption time: %s seconds", decryption_time)
+            # decryption_time = end_dec_timer - start_dec_timer
+            # logger.warning("Decryption time: %s seconds", decryption_time)
 
-            snapshot = tracemalloc.take_snapshot()
-            top_stats = snapshot.statistics('lineno')
-            total = sum(stat.size for stat in top_stats)
-            # print("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
-            logger.warning("Memory consumed in Decryption: %.1f KB" % (total / 1024))
-            tracemalloc.stop()
+            # snapshot = tracemalloc.take_snapshot()
+            # top_stats = snapshot.statistics('lineno')
+            # total = sum(stat.size for stat in top_stats)
+            # # print("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
+            # logger.warning("Memory consumed in Decryption: %.1f KB" % (total / 1024))
+            # tracemalloc.stop()
 
-            # print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
-            total_time = end_dec_timer - start_enc_timer
-            logger.warning("Total time elapsed: %s seconds", total_time)
+            # # print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
+            # total_time = end_dec_timer - start_enc_timer
+            # logger.warning("Total time elapsed: %s seconds", total_time)
 
             if type(receiver_verification) == np.int64:
                 messages.success(request, 'Payment successful!')
