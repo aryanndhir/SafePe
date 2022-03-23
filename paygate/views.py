@@ -9,6 +9,9 @@ from datetime import date
 from django.contrib import messages
 from paygate.Encryption import aes, ecc
 import tracemalloc
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def home(request):
@@ -121,12 +124,15 @@ def pay(request):
         aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
 
         end_enc_timer = time.time()
-        print("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
+        # print("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
+        logger.info("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
+
 
         snapshot = tracemalloc.take_snapshot()
         top_stats = snapshot.statistics('lineno')
         total = sum(stat.size for stat in top_stats)
-        print("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
+        # print("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
+        logger.info("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
         tracemalloc.stop()
 
         sender_verification = sender_bank(aes_ecc_key, aes_data)
@@ -140,15 +146,18 @@ def pay(request):
             receiver_verification = receiver_bank(aes_ecc_key, aes_data)
 
             end_dec_timer = time.time()
-            print("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
+            # print("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
+            logger.info("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
 
             snapshot = tracemalloc.take_snapshot()
             top_stats = snapshot.statistics('lineno')
             total = sum(stat.size for stat in top_stats)
-            print("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
+            # print("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
+            logger.info("Memory consumed in Decryption: %.1f KB" % (total / 1024),"\n")
             tracemalloc.stop()
 
-            print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
+            # print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
+            logger.info("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
 
             if type(receiver_verification) == np.int64:
                 messages.success(request, 'Payment successful!')

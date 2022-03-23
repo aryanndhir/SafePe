@@ -3,10 +3,11 @@ from ..Encryption.readBlockFile import *
 from ..Encryption.AES256 import encrypt, decrypt
 import secrets
 from ..Encryption.readKeyFile import *
+import logging
 
+logger = logging.getLogger(__name__)
 
 keyfile = secrets.token_hex(32)
-# print(keyfile)
 
 
 def encryptFile(filename):       
@@ -14,17 +15,20 @@ def encryptFile(filename):
     encryptedBlock = []
     lenFill = len(str(len(plainBlock)))
 
-    print("Plain text: ", filename)
+    # print("Plain text: ", filename)
+    logger.info("Plain text: ", filename)
 
     for i in range(len(plainBlock)):
         encryptedBlock.append(encrypt(plainBlock[i], getKey(keyfile)))
-        print("Encrypted: " + str(i).zfill(lenFill)+"/" +
-              str(len(plainBlock)).zfill(lenFill)+"\r")  # check
-    print("Encrypted: "+str(len(plainBlock)))
+        # print("Encrypted: " + str(i).zfill(lenFill)+"/" + str(len(plainBlock)).zfill(lenFill)+"\r")  # check
+        logger.info("Encrypted: " + str(i).zfill(lenFill)+"/" + str(len(plainBlock)).zfill(lenFill)+"\r")
+    # print("Encrypted: "+str(len(plainBlock)))
+    logger.info("Encrypted: "+str(len(plainBlock)))
 
     finaldata = writeToOutputHex(encryptedBlock)
 
-    print("Encrypted Data: ", finaldata)
+    # print("Encrypted Data: ", finaldata)
+    logger.info("Encrypted Data: ", finaldata)
 
     return finaldata
 
@@ -33,11 +37,13 @@ def decryptFile(filename, keyfile1):
     inputBlock = getLargeHexBlock(filename)
     for i in range(len(inputBlock)):
         inputBlock[i] = decrypt(inputBlock[i], getKey(keyfile))
-        print("Decrypted: ", str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")  # check
+        # print("Decrypted: ", str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")  # check
+        logger.info("Decrypted: ", str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")
 
     finalDecryptdata = writeToOutputPlain(inputBlock)
 
-    print("Decrypted Data: ", finalDecryptdata)
+    # print("Decrypted Data: ", finalDecryptdata)
+    logger.info("Decrypted Data: ", finalDecryptdata)
 
     return finalDecryptdata
 
