@@ -6,6 +6,11 @@ from paygate.restapi.serializer import TransactSerializer
 from paygate.views import sender_bank, receiver_bank
 from paygate.Encryption import aes, ecc
 import numpy as np
+import time
+import tracemalloc
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 @api_view(['POST'])
@@ -22,11 +27,24 @@ def transact(request):
 
             data = sender_accno + "," + cvv + "," + amount + "," + expirydate + "," + receiver_accno
 
+            start_enc_timer = time.time()
+            tracemalloc.start()
+
             aes_data = aes.encryptFile(data)
             aes_key = aes.keyfile
             aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
 
-            sender_verification = sender_bank(aes_ecc_key, aes_data)
+            end_enc_timer = time.time()
+            encryption_time = end_enc_timer - start_enc_timer
+            logger.warning("Encryption time: %s seconds", encryption_time)
+
+            snapshot = tracemalloc.take_snapshot()
+            top_stats = snapshot.statistics('lineno')
+            total = sum(stat.size for stat in top_stats)
+            logger.warning("Memory consumed in Encryption: %.1f KB" % (total / 1024))
+            tracemalloc.stop()
+
+            sender_verification = sender_bank(aes_ecc_key, aes_data, start_enc_timer)
 
             if type(sender_verification) == np.int64:
                 aes_ecc_key = ecc.encrypt_data(aes_key, "receiver")
