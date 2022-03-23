@@ -125,8 +125,8 @@ def pay(request):
 
         end_enc_timer = time.time()
         # print("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
-        logger.warning("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
-
+        encryption_time = end_enc_timer - start_enc_timer
+        logger.warning("\nEncryption time: %s seconds", encryption_time)
 
         snapshot = tracemalloc.take_snapshot()
         top_stats = snapshot.statistics('lineno')
@@ -147,7 +147,9 @@ def pay(request):
 
             end_dec_timer = time.time()
             # print("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
-            logger.warning("\nDecryption time: ", end_dec_timer - start_dec_timer, "seconds")
+
+            decryption_time = end_dec_timer - start_dec_timer
+            logger.warning("\nDecryption time: %s seconds", decryption_time)
 
             snapshot = tracemalloc.take_snapshot()
             top_stats = snapshot.statistics('lineno')
@@ -157,7 +159,8 @@ def pay(request):
             tracemalloc.stop()
 
             # print("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
-            logger.warning("Total time elapsed: ", end_dec_timer - start_enc_timer, "seconds \n")
+            total_time = end_dec_timer - start_enc_timer
+            logger.warning("Total time elapsed: %s seconds", total_time)
 
             if type(receiver_verification) == np.int64:
                 messages.success(request, 'Payment successful!')

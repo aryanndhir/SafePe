@@ -16,19 +16,19 @@ def encryptFile(filename):
     lenFill = len(str(len(plainBlock)))
 
     # print("Plain text: ", filename)
-    logger.warning("Plain text: ", filename)
+    logger.warning("Plain text: %s", filename)
 
     for i in range(len(plainBlock)):
         encryptedBlock.append(encrypt(plainBlock[i], getKey(keyfile)))
         # print("Encrypted: " + str(i).zfill(lenFill)+"/" + str(len(plainBlock)).zfill(lenFill)+"\r")  # check
-        logger.warning("Encrypted: " + str(i).zfill(lenFill)+"/" + str(len(plainBlock)).zfill(lenFill)+"\r")
+        logger.warning("Encrypted: %s/%s\r", str(i).zfill(lenFill), str(len(plainBlock)).zfill(lenFill))
     # print("Encrypted: "+str(len(plainBlock)))
-    logger.warning("Encrypted: "+str(len(plainBlock)))
+    logger.warning("Encrypted: %s", str(len(plainBlock)))
 
     finaldata = writeToOutputHex(encryptedBlock)
 
     # print("Encrypted Data: ", finaldata)
-    logger.warning("Encrypted Data: ", finaldata)
+    logger.warning("Encrypted Data: %s", finaldata)
 
     return finaldata
 
@@ -38,12 +38,12 @@ def decryptFile(filename, keyfile1):
     for i in range(len(inputBlock)):
         inputBlock[i] = decrypt(inputBlock[i], getKey(keyfile))
         # print("Decrypted: ", str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")  # check
-        logger.warning("Decrypted: ", str(i).zfill(8)+"/"+str(len(inputBlock)).zfill(8)+"\r")
+        logger.warning("Decrypted: %s/%s\r", str(i).zfill(8), str(len(inputBlock)).zfill(8))
 
     finalDecryptdata = writeToOutputPlain(inputBlock)
 
     # print("Decrypted Data: ", finalDecryptdata)
-    logger.warning("Decrypted Data: ", finalDecryptdata)
+    logger.warning("Decrypted Data: %s", finalDecryptdata)
 
     return finalDecryptdata
 
