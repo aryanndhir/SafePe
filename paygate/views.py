@@ -140,14 +140,12 @@ def pay(request):
         aes_ecc_key = ecc.encrypt_data(aes_key, "sender")
 
         end_enc_timer = time.time()
-        # print("\nEncryption time: ", end_enc_timer - start_enc_timer, "seconds")
         encryption_time = end_enc_timer - start_enc_timer
         logger.warning("Encryption time: %s seconds", encryption_time)
 
         snapshot = tracemalloc.take_snapshot()
         top_stats = snapshot.statistics('lineno')
         total = sum(stat.size for stat in top_stats)
-        # print("Memory consumed in Encryption: %.1f KB" % (total / 1024), "\n")
         logger.warning("Memory consumed in Encryption: %.1f KB" % (total / 1024))
         tracemalloc.stop()
 
