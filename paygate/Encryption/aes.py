@@ -75,20 +75,3 @@ def writeToOutputHex(block):
         k += 1
 
     return outputFile
-
-
-# def Main():
-
-#     blockFile = input("Enter text to encrypt: ")
-
-#     # This is a 256-bit hexxadecimal key
-#     # generate this randomly
-#     keyFile = "576E5A7234753778214125442A472D4B614E645267556B58703273357638792F"
-#     enc_text = encryptFile(blockFile)
-#     print("Encrypted data: ", enc_text)
-
-#     dec_text = decryptFile(enc_text)
-#     print("Decrypted data: ", dec_text)
-
-
-# Main()
