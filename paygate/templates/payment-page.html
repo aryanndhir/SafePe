@@ -116,136 +116,257 @@
               align-items: center;
             "
           >
-            <form
-              method="POST"
-              style="border-top: 2px solid #6544aa !important"
-            >
-              {% csrf_token %}
-              <div class="card-details">
-                <div>
-                  <h3 class="title">Card Details of Sender</h3>
-                  <div class="row">
-                    <div class="col-sm-7">
-                      <div class="mb-3">
-                        <label class="form-label" for="card_number"
-                          >Card Number</label
-                        >
-                        <input
-                          class="form-control"
-                          type="number"
-                          min="0"
-                          pattern="\d+"
-                          id="sender_accno"
-                          placeholder="Card Number"
-                          name="sender_accno"
-                          required
-                        />
+            <div class="form-container">
+              <div
+                class="card-container"
+                style="
+                  margin-bottom: -30px;
+                  position: relative;
+                  height: 250px;
+                  width: 400px;
+                  margin-left: 90px;
+                "
+              >
+                <div
+                  class="front"
+                  style="
+                    position: absolute;
+                    height: 100%;
+                    width: 100%;
+                    top: 0;
+                    left: 0;
+                    background: linear-gradient(45deg, #a618ef, #4a3081);
+                    border-radius: 20px;
+                    backface-visibility: hidden;
+                    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+                    padding: 20px;
+                    transform: perspective(1000px) rotateY(0deg);
+                    transition: transform 0.4s ease-out;
+                  "
+                >
+                  <div
+                    class="image"
+                    style="
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      padding-top: 10px;
+                    "
+                  >
+                    <img
+                      src="{% static 'paygate/images/chip.png' %}"
+                      style="height: 50px"
+                      alt=""
+                    />
+                    <img
+                      src="{% static 'paygate/images/visa.png' %}"
+                      style="height: 50px"
+                      alt=""
+                    />
+                  </div>
+                  <div
+                    class="card-number-box"
+                    style="padding: 30px 0; font-size: 22px; color: #fff"
+                  >
+                    ################
+                  </div>
+                  <div class="flexbox" style="display: flex">
+                    <div
+                      class="box"
+                      style="font-size: 15px; color: #fff; margin-right: auto"
+                    >
+                      <span>card holder</span>
+                      <div class="card-holder-name">full name</div>
+                    </div>
+                    <div class="box" style="font-size: 15px; color: #fff">
+                      <span>expires</span>
+                      <div class="expiration">
+                        <span class="exp-month">mm</span>
+                        <span class="exp-year">yy</span>
                       </div>
                     </div>
-                    <div class="col-sm-5">
-                      <div class="mb-3">
-                        <label class="form-label">Expiration date</label>
-                        <div class="input-group expiration-date">
+                  </div>
+                </div>
+                <div
+                  class="back"
+                  style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    height: 100%;
+                    width: 100%;
+                    background: linear-gradient(45deg, #a618ef, #4a3081);
+                    border-radius: 20px;
+                    padding: 20px 0;
+                    text-align: right;
+                    backface-visibility: hidden;
+                    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+                    transform: perspective(1000px) rotateY(180deg);
+                    transition: transform 0.4s ease-out;
+                  "
+                >
+                  <div
+                    class="stripe"
+                    style="
+                      background: #000;
+                      width: 100%;
+                      margin: 10px 0;
+                      height: 50px;
+                    "
+                  ></div>
+                  <div class="box" style="padding: 0 20px">
+                    <span style="color: #fff; font-size: 15px">cvv</span>
+                    <div
+                      class="cvv-box"
+                      style="
+                        height: 50px;
+                        padding: 10px;
+                        margin-top: 5px;
+                        color: #333;
+                        background: #fff;
+                        border-radius: 5px;
+                        width: 100%;
+                      "
+                    ></div>
+                    <img
+                      src="{% static 'paygate/images/visa.png' %}"
+                      style="margin-top: 30px; height: 30px"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <form
+                method="POST"
+                style="border-top: 2px solid #6544aa !important"
+              >
+                {% csrf_token %}
+                <div class="card-details">
+                  <div>
+                    <h3 class="title">Card Details of Sender</h3>
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <div class="mb-3">
+                          <label class="form-label" for="card_number"
+                            >Card Number</label
+                          >
                           <input
-                            id="sender_expirydate"
-                            class="form-control"
-                            type="number"
-                            min="1"
-                            max="31"
-                            pattern="\d+"
-                            placeholder="DD"
-                            name="sender_expirydate"
-                            required
-                          />
-                          <input
-                            id="sender_expirymonth"
-                            class="form-control"
-                            type="number"
-                            min="1"
-                            max="12"
-                            pattern="\d+"
-                            placeholder="MM"
-                            name="sender_expirymonth"
-                            required
-                          /><input
-                            id="sender_expiryyear"
                             class="form-control"
                             type="number"
                             min="0"
-                            max="99"
                             pattern="\d+"
-                            placeholder="YY"
-                            name="sender_expiryyear"
+                            id="sender_accno"
+                            placeholder="Card Number"
+                            name="sender_accno"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-5">
+                        <div class="mb-3">
+                          <label class="form-label">Expiration date</label>
+                          <div class="input-group expiration-date">
+                            <input
+                              id="sender_expirydate"
+                              class="form-control"
+                              type="number"
+                              min="1"
+                              max="31"
+                              pattern="\d+"
+                              placeholder="DD"
+                              name="sender_expirydate"
+                              required
+                            />
+                            <input
+                              id="sender_expirymonth"
+                              class="form-control"
+                              type="number"
+                              min="1"
+                              max="12"
+                              pattern="\d+"
+                              placeholder="MM"
+                              name="sender_expirymonth"
+                              required
+                            /><input
+                              id="sender_expiryyear"
+                              class="form-control"
+                              type="number"
+                              min="0"
+                              max="99"
+                              pattern="\d+"
+                              placeholder="YY"
+                              name="sender_expiryyear"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-7">
+                        <div class="mb-3">
+                          <label class="form-label" for="amount">Amount</label
+                          ><input
+                            class="form-control"
+                            type="number"
+                            min="1"
+                            pattern="\d+"
+                            id="sender_amount"
+                            placeholder="Amount"
+                            name="sender_amount"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <div class="mb-3">
+                          <label class="form-label" for="cvv">CVV</label
+                          ><input
+                            class="form-control"
+                            type="number"
+                            min="0"
+                            pattern="\d+"
+                            id="sender_cvv"
+                            placeholder="CVV"
+                            name="sender_cvv"
                             required
                           />
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-7">
-                      <div class="mb-3">
-                        <label class="form-label" for="amount">Amount</label
-                        ><input
-                          class="form-control"
-                          type="number"
-                          min="1"
-                          pattern="\d+"
-                          id="sender_amount"
-                          placeholder="Amount"
-                          name="sender_amount"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div class="col-sm-4">
-                      <div class="mb-3">
-                        <label class="form-label" for="cvv">CVV</label
-                        ><input
-                          class="form-control"
-                          type="number"
-                          min="0"
-                          pattern="\d+"
-                          id="sender_cvv"
-                          placeholder="CVV"
-                          name="sender_cvv"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
 
-                  <h3 class="title">Details of Reciever</h3>
-                  <div class="row">
-                    <div class="col-sm-7">
-                      <div class="mb-3">
-                        <label class="form-label" for="card_number"
-                          >Account Number</label
-                        ><input
-                          class="form-control"
-                          type="number"
-                          min="0"
-                          pattern="\d+"
-                          id="receiver_accno"
-                          placeholder="Card Number"
-                          name="receiver_accno"
-                          required
-                        />
+                    <h3 class="title">Details of Reciever</h3>
+                    <div class="row">
+                      <div class="col-sm-7">
+                        <div class="mb-3">
+                          <label class="form-label" for="card_number"
+                            >Account Number</label
+                          ><input
+                            class="form-control"
+                            type="number"
+                            min="0"
+                            pattern="\d+"
+                            id="receiver_accno"
+                            placeholder="Card Number"
+                            name="receiver_accno"
+                            required
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-sm-12">
-                      <div class="mb-3">
-                        <button
-                          class="btn btn-primary d-block w-100"
-                          type="submit"
-                          style="background-color: #6544aa; color: #d1c4e7"
-                        >
-                          Proceed
-                        </button>
+                      <div class="col-sm-12">
+                        <div class="mb-3">
+                          <button
+                            class="btn btn-primary d-block w-100"
+                            type="submit"
+                            style="background-color: #6544aa; color: #d1c4e7"
+                          >
+                            Proceed
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
 
             {% if sender_amount %}
             <form style="border-top: 2px solid #6544aa !important">
@@ -316,4 +437,38 @@
     </footer>
     <!-- End: Footer Dark -->
   </body>
+  <script>
+    document.querySelector("#sender_accno").oninput = () => {
+      document.querySelector(".card-number-box").innerText =
+        document.querySelector("#sender_accno").value;
+    };
+
+    document.querySelector("#sender_expirymonth").oninput = () => {
+      document.querySelector(".exp-month").innerText = document.querySelector(
+        "#sender_expirymonth"
+      ).value;
+    };
+
+    document.querySelector("#sender_expiryyear").oninput = () => {
+      document.querySelector(".exp-year").innerText =
+        document.querySelector("#sender_expiryyear").value;
+    };
+    document.querySelector("#sender_cvv").onfocus = () => {
+      document.querySelector(".front").style.transform =
+        "perspective(1000px) rotateY(-180deg)";
+      document.querySelector(".back").style.transform =
+        "perspective(1000px) rotateY(0deg)";
+    };
+
+    document.querySelector("#sender_cvv").onfocus = () => {
+      document.querySelector(".front").style.transform =
+        "perspective(1000px) rotateY(0deg)";
+      document.querySelector(".back").style.transform =
+        "perspective(1000px) rotateY(180deg)";
+    };
+    document.querySelector("#sender_cvv").oninput = () => {
+      document.querySelector(".cvv-box").innerText =
+        document.querySelector("#sender_cvv").value;
+    };
+  </script>
 </html>
